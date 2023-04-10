@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`counter component debe de ser igual al snaphot 1`] = `
+<h2>None</h2>
+<p> <sup>2</sup> = NaN</p>
+<div class="buttons-container"><button>+1</button><button>-1</button></div>
+`;

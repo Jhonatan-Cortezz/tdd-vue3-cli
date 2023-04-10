@@ -10,7 +10,7 @@ const props = defineProps({
   },
   start: {
     type: Number,
-    required: true
+    required: false
   }
 })
 
@@ -35,7 +35,7 @@ const squareCounter = computed(() => {
 <template>
   <h2>{{ props.title }}</h2>
   <p>{{ counter }} <sup>2</sup> = {{ squareCounter }}</p>
-  <div>
+  <div class="buttons-container">
     <button @click="increment">+1</button>
     <button @click="decrement">-1</button>
   </div>
