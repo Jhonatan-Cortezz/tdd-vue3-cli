@@ -35,6 +35,7 @@ const squareCounter = computed(() => {
   <h2>{{ props.title }}</h2>
   <p>{{ counter }} <sup>2</sup> = {{ squareCounter }}</p>
   <p data-testid="start">{{ props.start }}</p><!-- el data atribute me sirve mas para hacer la busqueda del elemento en las pruebas -->
+  <p>{{ counter }}</p>
   <div class="buttons-container">
     <button @click="increment">+1</button>
     <button @click="decrement">-1</button>
