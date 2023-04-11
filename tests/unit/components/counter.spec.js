@@ -60,4 +60,11 @@ describe('counter component', () => {
     expect(pharaf).toBe('51')
   })
 
+  test('debe de establecer el valor por defecto de las props', () => {
+    const { start, title } = wrapper.props()
+
+    let pharaf = wrapper.findAll('p')[2].text()
+
+    expect( Number(pharaf) ).toBe(start)
+  })
 })
