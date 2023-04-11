@@ -10,7 +10,8 @@ const props = defineProps({
   },
   start: {
     type: Number,
-    required: false
+    required: false,
+    default: 50
   }
 })
 
@@ -18,7 +19,6 @@ const counter = ref(props.start)
 
 /* methods */
 const getSquareCounter = () => {
-  console.log('getSquareCounter');
   return counter.value * counter.value
 }
 
@@ -28,13 +28,13 @@ const decrement = () => counter.value--
 
 /* computed */
 const squareCounter = computed(() => {
-  console.log('computedSquereCounter');
   return counter.value * counter.value
 })
 </script>
 <template>
   <h2>{{ props.title }}</h2>
   <p>{{ counter }} <sup>2</sup> = {{ squareCounter }}</p>
+  <p data-testid="start">{{ props.start }}</p><!-- el data atribute me sirve mas para hacer la busqueda del elemento en las pruebas -->
   <div class="buttons-container">
     <button @click="increment">+1</button>
     <button @click="decrement">-1</button>
