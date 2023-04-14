@@ -48,8 +48,14 @@ describe('Indesicion component', () => {
     expect(getAnswerSpy).toHaveBeenCalled()
   })
 
-  test('pruebas en get answer', () => {
+  test('pruebas en get answer', async() => {
+    await wrapper.vm.getAnswer()
 
+    const image = wrapper.find('img')
+
+    expect(image.exists()).toBeTruthy()
+    expect( wrapper.vm.img ).toBe('https://yesno.wtf/assets/yes/9-6403270cf95723ae4664274db51f1fd4.gif')
+    expect( wrapper.vm.answer ).toBe('Si!')
   })
 
   test('pruebas en getAnswer - fallo api', () => {
