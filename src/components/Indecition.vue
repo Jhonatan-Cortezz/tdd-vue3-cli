@@ -1,50 +1,67 @@
-<script setup>
-import { ref, watch } from 'vue';
-
-const question = ref('')
-const answer = ref(null)
-const img = ref(null)
-
-/* methods */
-const getAnswer = async() => {
-  try {
-    answer.value = 'Pensando'
-    const { data } = await fetch('https://yesno.wtf/api').then( r => r.json() )
-    answer.value = data.answer
-    img.value = data.image
-
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-/* watchers */
-watch(question, async (newQuestion, oldQuestion) => {
-  console.log({newQuestion});
-  if (!newQuestion.includes('?')) return
-
-  /* todo: fetch api */
-  getAnswer()
-})
-
-</script>
 <template>
-  <img :src="img ? img : 'https://via.placeholder.com/250'" alt="bg">
+  <img v-if="img" :src="img" alt="bg">
   <div class="bg-dark"></div>
 
   <div class="indecision-container">
-    <input type="text" placeholder="Hazme una pregunta" v-model="question">
-    <p>Recuerda terminar con un signo de interrogación</p>
 
-    <div>
+    <input v-model="question" type="text" placeholder="Hazme una pregunta">
+    <p>Recuerda terminar con un signo de interrogación (?)</p>
+
+    <div v-if="isValidQuestion">
       <h2>{{ question }}</h2>
       <h1>{{ answer }}</h1>
+      <!-- Si!: YES -->
+      <!-- No!: No -->
     </div>
+
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      question: null,
+      answer: null,
+      img: null,
+      isValidQuestion: false
+    }
+  },
+  methods: {
+    async getAnswer() {
+
+      try {
+        this.answer = 'Pensando...'
+        const { answer, image } = await fetch('https://yesno.wtf/api').then(r => r.json())
+
+        this.answer = answer === 'yes' ? 'Si!' : 'No!'
+        this.img = image
+
+      } catch (error) {
+        console.log('IndecisionComponent: ', error)
+        this.answer = 'No se pudo cargar del API'
+        this.img = null
+      }
+    }
+  },
+  watch: {
+    question(value, oldValue) {
+      this.isValidQuestion = false
+      console.log({ value })
+
+      if (!value.includes('?')) return
+      this.isValidQuestion = true
+      console.log({ value })
+      // TODO: Realizar petición http
+      this.getAnswer()
+    }
+  }
+}
+</script>
+
 <style scoped>
-img, .bg-dark {
+img,
+.bg-dark {
   height: 100vh;
   left: 0px;
   max-height: 100%;
@@ -76,6 +93,7 @@ input {
   border-radius: 5px;
   border: none;
 }
+
 input:focus {
   outline: none;
 }
@@ -86,7 +104,8 @@ p {
   margin-top: 0px;
 }
 
-h1, h2 {
+h1,
+h2 {
   color: white;
 }
 
