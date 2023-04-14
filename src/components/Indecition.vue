@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue';
-import axios from 'axios'
 
 const question = ref('')
 const answer = ref(null)
@@ -10,7 +9,7 @@ const img = ref(null)
 const getAnswer = async() => {
   try {
     answer.value = 'Pensando'
-    const { data } = await axios.get('https://yesno.wtf/api').then( r => r )
+    const { data } = await fetch('https://yesno.wtf/api').then( r => r.json() )
     answer.value = data.answer
     img.value = data.image
 
@@ -21,6 +20,7 @@ const getAnswer = async() => {
 
 /* watchers */
 watch(question, async (newQuestion, oldQuestion) => {
+  console.log({newQuestion});
   if (!newQuestion.includes('?')) return
 
   /* todo: fetch api */
