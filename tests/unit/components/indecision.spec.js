@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import Indecition from '@/components/Indecition.vue'
-import fetch from 'jest-fetch-mock'
+// import fetch from 'jest-fetch-mock'
 
 describe('Indesicion component', () => {
 
@@ -58,8 +58,17 @@ describe('Indesicion component', () => {
     expect( wrapper.vm.answer ).toBe('Si!')
   })
 
-  test('pruebas en getAnswer - fallo api', () => {
+  test('pruebas en getAnswer - fallo api', async() => {
+
+    fetch.mockImplementationOnce( () => Promise.reject('API is down'))
     
+    await wrapper.vm.getAnswer()
+
+    const img = wrapper.find('img')
+
+    expect( img.exists() ).toBeFalsy()
+
+    expect( wrapper.vm.answer ).toBe('No se pudo cargar del API')
   })
 
 })
